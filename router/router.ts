@@ -1,8 +1,17 @@
 import { createWebHistory, createRouter } from 'vue-router'
 
-import HomeView from '../pages/HomePage.vue'
-
-const routes = [{ path: '/', component: HomeView }]
+const routes = [
+  {
+    path: '/',
+    component: () => import('../layouts/DefaultLayout.vue'),
+    children: [
+      {
+        path: '',
+        component: () => import('../pages/HomePage.vue')
+      }
+    ]
+  }
+]
 
 const router = createRouter({
   history: createWebHistory(),
