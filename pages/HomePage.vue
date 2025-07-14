@@ -1,71 +1,53 @@
 <template>
   <Tabs value="0">
     <TabList>
-      <Tab value="0" as="div" class="flex items-center gap-2">
-        <Avatar
-          image="https://primefaces.org/cdn/primevue/images/avatar/amyelsner.png"
-          shape="circle"
-        />
-        <span class="font-bold whitespace-nowrap">Amy Elsner</span>
+      <Tab value="0" class="flex items-center gap-2">
+        <i class="pi pi-user" />
+        <span class="font-bold whitespace-nowrap">Perfil</span>
       </Tab>
-      <Tab value="1" as="div" class="flex items-center gap-2">
-        <Avatar
-          image="https://primefaces.org/cdn/primevue/images/avatar/onyamalimba.png"
-          shape="circle"
-        />
-        <span class="font-bold whitespace-nowrap">Onyama Limba</span>
+      <Tab value="1" class="flex items-center gap-2">
+        <i class="pi pi-graduation-cap" />
+        <span class="font-bold whitespace-nowrap">Escolaridade/Cursos</span>
       </Tab>
-      <Tab v-slot="slotProps" value="2" asChild>
-        <div
-          :class="['flex items-center gap-2', slotProps.class]"
-          @click="slotProps.onClick"
-          v-bind="slotProps.a11yAttrs"
-        >
-          <Avatar
-            image="https://primefaces.org/cdn/primevue/images/avatar/ionibowcher.png"
-            shape="circle"
-          />
-          <span class="font-bold whitespace-nowrap">Ioni Bowcher</span>
-          <Badge value="2" />
-        </div>
+      <Tab value="2" class="flex items-center gap-2">
+        <i class="pi pi-briefcase" />
+        <span class="font-bold whitespace-nowrap">Experiência</span>
+        <!-- <Badge value="2" /> -->
       </Tab>
     </TabList>
     <TabPanels>
-      <TabPanel value="0" as="p" class="m-0">
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+      <TabPanel value="0">
+        <ProfileForm :saveProfile="saveProfile" :isLoading="isLoading" />
       </TabPanel>
-      <TabPanel value="1" as="p" class="m-0">
-        Sed ut perspiciatis unde omnis iste natus error sit voluptatem
-        accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-        illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-        explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut
-        odit aut fugit, sed quia consequuntur magni dolores eos qui ratione
-        voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non
-        numquam eius modi.
+      <TabPanel value="1">
+        escolaridade
       </TabPanel>
-      <TabPanel v-slot="slotProps" value="2" asChild>
-        <div
-          v-show="slotProps.active"
-          :class="slotProps.class"
-          v-bind="slotProps.a11yAttrs"
-        >
-          <p class="m-0">
-            At vero eos et accusamus et iusto odio dignissimos ducimus qui
-            blanditiis praesentium voluptatum deleniti atque corrupti quos
-            dolores et quas molestias excepturi sint occaecati cupiditate non
-            provident, similique sunt in culpa qui officia deserunt mollitia
-            animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis
-            est et expedita distinctio. Nam libero tempore, cum soluta nobis est
-            eligendi optio cumque nihil impedit quo minus.
-          </p>
-        </div>
+      <TabPanel value="2">
+        experiência
       </TabPanel>
     </TabPanels>
   </Tabs>
 </template>
+<script lang="ts" setup>
+import ProfileForm from '../src/components/ProfileForm.vue';
+import { ref } from 'vue';
+import { useToast } from "primevue/usetoast";
+
+const toast = useToast()
+
+const isLoading = ref(false)
+
+
+function saveProfile() {
+  isLoading.value = true
+  setTimeout(() => {
+    isLoading.value = false
+    toast.add({ severity: 'success', summary: 'Dados atualizados!', life: 3000 });
+  }, 3000)
+}
+</script>
+<style lang="scss">
+.p-tablist-tab-list {
+  flex-wrap: wrap!important;
+}
+</style>

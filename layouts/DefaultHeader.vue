@@ -1,5 +1,8 @@
 <template>
   <Menubar :model="items">
+    <template #start>
+        <div>Lupa Vagas</div>
+    </template>
     <template #item="{ item, props, hasSubmenu }">
       <router-link
         v-if="item.route"
@@ -34,39 +37,42 @@ const router = useRouter()
 
 const items = ref([
   {
-    label: 'Router',
-    icon: 'pi pi-palette',
-    items: [
-      {
-        label: 'Styled',
-        route: '/theming/styled'
-      },
-      {
-        label: 'Unstyled',
-        route: '/theming/unstyled'
-      }
-    ]
-  },
-  {
-    label: 'Programmatic',
-    icon: 'pi pi-link',
-    command: () => {
-      router.push('/introduction')
-    }
-  },
-  {
-    label: 'External',
+    label: 'Home',
     icon: 'pi pi-home',
-    items: [
-      {
-        label: 'Vue.js',
-        url: 'https://vuejs.org/'
-      },
-      {
-        label: 'Vite.js',
-        url: 'https://vitejs.dev/'
-      }
-    ]
-  }
+    command: () => {
+      router.push('/')
+    }
+    // items: [
+    //   {
+    //     label: 'Styled',
+    //     route: '/theming/styled'
+    //   },
+    //   {
+    //     label: 'Unstyled',
+    //     route: '/theming/unstyled'
+    //   }
+    // ]
+  },
+  // {
+  //   label: 'Programmatic',
+  //   icon: 'pi pi-link',
+  //   command: () => {
+  //     router.push('/introduction')
+  //   }
+  // },
+  // {
+  //   label: 'External',
+  //   icon: 'pi pi-home',
+  //   items: [
+  //     {
+  //       label: 'Vue.js',
+  //       url: 'https://vuejs.org/'
+  //     },
+  //     {
+  //       label: 'Vite.js',
+  //       url: 'https://vitejs.dev/'
+  //     }
+  //   ]
+  // }
 ])
 </script>
