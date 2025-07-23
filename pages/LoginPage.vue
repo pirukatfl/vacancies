@@ -6,32 +6,65 @@
         <FormField v-slot="$field" as="section" name="email" initialValue="">
           <InputText type="text" placeholder="Email" class="mb-1" />
           <div class="h-1 mb-6">
-            <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
+            <Message v-if="$field?.invalid" severity="error" size="small" variant="simple" v-model="initialValues.email" >{{ $field.error?.message }}</Message>
           </div>
         </FormField>
         <FormField v-slot="$field" asChild name="password" initialValue="">
-          <Password type="text" placeholder="Password" :feedback="false" class="mb-1" />
+          <Password type="text" placeholder="Password" :feedback="false" class="mb-1" v-model="initialValues.password"  />
           <div class="h1 mb-5">
             <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
           </div>
         </FormField>
-        <Button class="" type="submit" severity="primary" label="Submit" />
+        <Button class="mb-5" type="submit" severity="primary" label="Submit" />
+        <Button label="Cadastre-se" severity="secondary" @click="visible = true" />
       </Form>
     </div>
+
+    <!-- REGISTER -->
+
+    <Dialog v-model:visible="visible" modal :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
+      {{ initialValues }}
+      <Form :initialValues :resolver @submit="onFormSubmitNewUser" class="flex flex-col w-full sm:w-56">
+        <FormField v-slot="$field" as="section" name="email" initialValue="">
+          <InputText type="text" placeholder="Email" class="mb-1" />
+          <div class="h-1 mb-6">
+            <Message v-if="$field?.invalid" severity="error" size="small" variant="simple" v-model="initialValues.email" >{{ $field.error?.message }}</Message>
+          </div>
+        </FormField>
+        <FormField v-slot="$field" asChild name="password" initialValue="">
+          <Password type="text" placeholder="Password" :feedback="false" class="mb-1" v-model="initialValues.password" />
+          <div class="h1 mb-5">
+            <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
+          </div>
+        </FormField>
+        <FormField v-slot="$field" asChild name="repassword" initialValue="">
+          <Password type="text" placeholder="Repita o password" :feedback="false" class="mb-1" v-model="initialValues.repassword"  />
+          <div class="h1 mb-5">
+            <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
+          </div>
+        </FormField>
+        <Button class="mb-5" type="submit" severity="primary" label="Submit" />
+        <Button label="Cadastre-se" severity="secondary" @click="visible = true" />
+      </Form>
+    </Dialog>
   </div>
 </template>
 
 <script setup>
-import { ref, inject } from 'vue';
+import { ref } from 'vue';
 import { zodResolver } from '@primevue/forms/resolvers/zod';
 import { z } from 'zod';
 import { useToast } from 'primevue/usetoast';
+import Auth from '../services/auth';
 
-const axios = inject('axios')
-console.log('axios', await axios.get('/profiles?name=furlannn'))
+const auth = new Auth()
+
+const visible = ref(false);
+
 const initialValues = ref({
     email: '',
-    password: ''
+    password: '',
+    repassword: '',
 });
 
 const toast = useToast();
@@ -43,10 +76,17 @@ const resolver =  zodResolver(
     })
 );
 
-const onFormSubmit = ({ valid }) => {
+const onFormSubmit = async ({ valid }) => {
   if (valid) {
+      await auth.signIn(initialValues.value.email, initialValues.value.password)
       toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
-      console.log('KKK')
+    }
+};
+
+const onFormSubmitNewUser = async ({ valid }) => {
+  if (valid) {
+      await auth.signUp(initialValues.value.email, initialValues.value.password)
+      toast.add({ severity: 'success', summary: 'Form is submitted.', life: 3000 });
     }
 };
 </script>
