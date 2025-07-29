@@ -23,8 +23,8 @@
     <!-- REGISTER -->
 
     <Dialog v-model:visible="visible" modal :breakpoints="{ '1199px': '75vw', '575px': '90vw' }">
-      {{ initialValues }}
-      <Form :initialValues :resolver @submit="onFormSubmitNewUser" class="flex flex-col w-full sm:w-56">
+      {{ initialValuesRegister }}
+      <Form :initialValues:initialValuesRegister :resolver="resolverRegister" @submit="onFormSubmitNewUser" class="flex flex-col w-full sm:w-56">
         <FormField v-slot="$field" as="section" name="email" initialValue="">
           <InputText type="text" placeholder="Email" class="mb-1" />
           <div class="h-1 mb-6">
@@ -43,8 +43,7 @@
             <Message v-if="$field?.invalid" severity="error" size="small" variant="simple">{{ $field.error?.message }}</Message>
           </div>
         </FormField>
-        <Button class="mb-5" type="submit" severity="primary" label="Submit" />
-        <Button label="Cadastre-se" severity="secondary" @click="visible = true" />
+        <Button class="mb-5" type="submit" severity="primary" label="Cadastrar" />
       </Form>
     </Dialog>
   </div>
@@ -64,6 +63,11 @@ const visible = ref(false);
 const initialValues = ref({
     email: '',
     password: '',
+});
+
+const initialValuesRegister = ref({
+    email: '',
+    password: '',
     repassword: '',
 });
 
@@ -73,6 +77,14 @@ const resolver =  zodResolver(
     z.object({
         email: z.string().min(1, { message: 'informe o email' }).email('este email não é válido'),
         password: z.string().min(1, { message: 'informe sua senha' })
+    })
+);
+
+const resolverRegister =  zodResolver(
+    z.object({
+        email: z.string().min(1, { message: 'informe o email' }).email('este email não é válido'),
+        password: z.string().min(1, { message: 'informe sua senha' })
+        repassword: z.
     })
 );
 
