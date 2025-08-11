@@ -8,13 +8,25 @@ const routes = [
     children: [
       {
         path: '',
+        name: 'home',
         component: () => import('../pages/HomePage.vue')
       }
     ]
   },
   {
     path: '/login',
+    name: 'login',
     component: () => import('../pages/LoginPage.vue')
+  },
+  {
+    path: '/user-not-found',
+    name: 'userNotFound',
+    component: () => import('../pages/UserNotFound.vue')
+  },
+  {
+    path: '/expired-link',
+    name: 'expiredLink',
+    component: () => import('../pages/ExpiredLink.vue')
   }
 ]
 

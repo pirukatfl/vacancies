@@ -20,7 +20,7 @@
         <ProfileForm :saveProfile="saveProfile" :isLoading="isLoading" />
       </TabPanel>
       <TabPanel value="1">
-        escolaridade
+        <SchoolingsForm :saveProfile="saveProfile" :isLoading="isLoading" />
       </TabPanel>
       <TabPanel value="2">
         experiência
@@ -32,6 +32,7 @@
 import ProfileForm from '../src/components/ProfileForm.vue';
 import { ref } from 'vue';
 import { useToast } from "primevue/usetoast";
+import SchoolingsForm from '../src/components/SchoolingsForm.vue';
 
 const toast = useToast()
 

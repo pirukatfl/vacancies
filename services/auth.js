@@ -1,18 +1,23 @@
-import supabase from "./supabase"
+// import supabase from "./supabase"
+import http from "./axios"
 
 export default class Auth {
-  async signUp(email, password) {
-    const { data, error } = await supabase.auth.signUp({
+  async signUp(email, password, isCompany) {
+    const { data, error } = await http.post('/users/create', {
       email,
       password,
+      permission: isCompany ? 'COMPANY' : 'EMPLOYEE'
     })
     console.log(data)
-    console.log(error)
+    console.log('ERROR', error)
     return data
   }
 
   async signIn(email, password) {
-    let { data, error } = await supabase.auth.signInWithPassword({
+    console.log('HTTP', http)
+    console.log(email)
+    console.log(password)
+    let { data, error } = await http.post('/auth', {
       email,
       password,
     })
@@ -22,7 +27,7 @@ export default class Auth {
   }
 
   async logout() {
-    let { error } = await supabase.auth.signOut()
+    let { error } = await http.get('/auth/logout')
     return true
   }
 }

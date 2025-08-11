@@ -5,7 +5,6 @@
         <label for="photo">Foto</label>
         <InputText id="photo" name="furllname" type="text" v-model="form.photo" placeholder="foto" />
       </div> -->
-      {{ form }}
       <div class="flex flex-col gap-1">
         <label for="fullname">Nome completo</label>
         <InputText id="fullname" name="furllname" type="text" v-model="form.fullname" placeholder="Nome completo" />

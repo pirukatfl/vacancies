@@ -4,7 +4,7 @@ const PUBLIC_URLS = ['/login']
 
 
 console.log('env', import.meta.env)
-const axiosConfig = axios.create({
+const http = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL,
   timeout: 100000,
   headers: {
@@ -12,7 +12,7 @@ const axiosConfig = axios.create({
   }
 })
 
-axiosConfig.interceptors.request.use((config) => {
+http.interceptors.request.use((config) => {
   const isAbsoluteUrl = config.url?.startsWith('http://') || config.url?.startsWith('https://')
   const isPublic = isAbsoluteUrl ? false : PUBLIC_URLS.includes(config.url || '')
 
@@ -27,4 +27,4 @@ axiosConfig.interceptors.request.use((config) => {
 })
 
 
-export default axiosConfig
+export default http
